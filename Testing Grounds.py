@@ -6,83 +6,72 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium .webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import time
+import config
+from Bot import bot
 import time
 import config
 
-class bot():
+class Victorious(bot):
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        super().__init__()
     
-    def OpenWebsite(self, url):
-        self.driver.get(url)
-        time.sleep(3)
-    
-    def InputElement_ID(self, Id, Input):
-        self.driver.find_element(By.ID, Id).send_keys(Input + Keys.ENTER)
-        time.sleep(3)
+    def SendingMail(self, Receiver, Subject, Content):
+        self._OpenWebsite('https://mail.google.com/')
+        # Log in
+        email_input = driver.find_element(By.ID, 'identifierId')
+        email_input.send_keys(EMAIL)
+        email_input.send_keys(Keys.RETURN)
+        time.sleep(2)  # Wait for the next page to load
 
-    def ClickBy_ID(self, Id):
-        self.driver.find_element(By.ID, Id).click()
-        time.sleep(3)
-    
-    def ClickBy_Name(self, name):
-        self.driver.find_element(By.NAME, name).click()
-        time.sleep(3)
-    
-    def SelectBy_Value(self, htmlTag=None, name=None, value=None):
-        if htmlTag and name and value:
-            path = f"//{htmlTag}[@name='{name}' and @value='{value}']"
-        elif htmlTag and value:
-            path = f"//{htmlTag}[@value='{value}']"
-        self.driver.find_element(By.XPATH, path).click()
-        time.sleep(3)
-    
-    def breakfast(self):
-        # Locate the BREAKFAST radio button using its value or text
-        breakfast_radio_button = self.driver.find_element(By.XPATH, '//input[@name="Servicetype_id" and @value="59"]')
+        password_input = driver.find_element(By.NAME, 'password')
+        password_input.send_keys(PASSWORD)
+        password_input.send_keys(Keys.RETURN)
+        time.sleep(5)  # Wait for the inbox to load
 
-        # Click on the radio button
-        breakfast_radio_button.click()
-    
+        # Click the Compose button
+        compose_button = driver.find_element(By.XPATH, '//div[@role="button" and text()="Compose"]')
+        compose_button.click()
+        
+        # You can add more code here to fill in the email details if needed
+
 
 if __name__ == "__main__":
-    url = "https://events.iist.ac.in/foodbook/index.php?option=login"
-    SBot = bot()
-    SBot.OpenWebsite(url)
-    SBot.InputElement_ID("Institute_ID", config.IIST_FoodBookingUsername)
-    SBot.InputElement_ID("pin", config.IIST_FoodBookingPassword)
+    # VicBot = Victorious()
+    # method = [func for func in dir(VicBot) if callable(getattr(VicBot, func)) and not func.startswith("_")]
+    # methods = dict()
+    # for i in range(len(method)):
+    #     methods[i] = method[i]
+    # methods[len(method)] = "exit"
+    # exit = False
+    
+    # while not exit:
+    #     for i in methods:
+    #         print(f'{i} : {methods[i]}')
+    #     choice = int(input("Enter your choice: "))
+    #     if methods[choice] == "exit":
+    #         exit = True
+    #     elif methods[choice] == "SendingMail":
+    #         VicBot.SendingMail(
+    #             Receiver="Yadashesh@gmail.com", 
+    #             Subject="Testing",
+    #             Content="This is a test mail"
+    #             )
+    driver = webdriver.Chrome()
+    driver.get("https://mail.google.com/")
+    time.sleep(3)
+    email_input = driver.find_element(By.ID, 'identifierId')
+    email_input.send_keys("yadashesh@gmail.com")
+    email_input.send_keys(Keys.RETURN)
+    time.sleep(2)  # Wait for the next page to load
 
-    ## Booking Breakfast
-    SBot.ClickBy_ID("Canteen_id")
-    SBot.SelectBy_Value(htmlTag="option", value="1")
-    SBot.SelectBy_Value(htmlTag="input", name="Servicetype_id", value="59")
-    SBot.ClickBy_ID("356")  # Breakfast Select All
-    SBot.SelectBy_Value(htmlTag="input", name="Submit", value="Save Booking") # Saving Booking
-    SBot.OpenWebsite("https://events.iist.ac.in/foodbook/index.php?option=booking&task=book")
+    password_input = driver.find_element(By.NAME, 'password')
+    password_input.send_keys("yada@0208")
+    password_input.send_keys(Keys.RETURN)
+    time.sleep(5)  # Wait for the inbox to load
 
-    ## Booking Lunch
-    SBot.ClickBy_ID("Canteen_id")
-    SBot.SelectBy_Value(htmlTag="option", value="1")
-    SBot.SelectBy_Value(htmlTag="input", name="Servicetype_id", value="60")
-    SBot.ClickBy_ID("361")  # Lunch Select All
-    SBot.SelectBy_Value(htmlTag="input", name="Submit", value="Save Booking") # Saving Booking
-    SBot.OpenWebsite("https://events.iist.ac.in/foodbook/index.php?option=booking&task=book")
-
-    ##Booking Dinner
-    SBot.ClickBy_ID("Canteen_id")
-    SBot.SelectBy_Value(htmlTag="option", value="1")
-    SBot.SelectBy_Value(htmlTag="input", name="Servicetype_id", value="61")
-    SBot.ClickBy_ID("365")  # Dinner Select All
-    SBot.SelectBy_Value(htmlTag="input", name="Submit", value="Save Booking") # Saving Booking
-    SBot.OpenWebsite("https://events.iist.ac.in/foodbook/index.php?option=booking&task=book")
-
-    ## Booking Snacks
-    SBot.ClickBy_ID("Canteen_id")
-    SBot.SelectBy_Value(htmlTag="option", value="1")
-    SBot.SelectBy_Value(htmlTag="input", name="Servicetype_id", value="62")
-    SBot.ClickBy_ID("372")  # Snacks Select All 
-    SBot.ClickBy_ID("428")  # Coffee Select All 
-    SBot.SelectBy_Value(htmlTag="input", name="Submit", value="Save Booking") # Saving Booking
-    SBot.OpenWebsite("https://events.iist.ac.in/foodbook/index.php?option=booking&task=book")
-
+    # Click the Compose button
+    compose_button = driver.find_element(By.XPATH, '//div[@role="button" and text()="Compose"]')
+    compose_button.click()
     print("Program Executed SUccessfully!!!")
